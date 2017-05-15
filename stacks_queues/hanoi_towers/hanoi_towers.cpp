@@ -4,12 +4,17 @@
 
 using std::stack;
 using std::cout;
+using std::ostream;
 
 class Tower {
   stack<int> disks;
 public:
   Tower (void){}
-  void addDisk (int disk) {disks.push(disk);}
+
+  void addDisk (int disk) {
+    disks.push(disk);
+  }
+
   int removeDisk (void) { 
     if(disks.empty()) throw std::runtime_error("Remove from empty tower!");
     else {
@@ -17,27 +22,45 @@ public:
       disks.pop();
       return disk;
     }
-    friend ostream& operator<<(ostream& out, const Tower& rhs);
-  };
+  }
 
-  ostream& operator<<(ostream& out, const Tower& rhs) {
-    if (rhs.disks.empty()) out << "Empty Tower!" << "\n";
-    else {
-      stack<int> tmp;
-      while (!rhs.disks.empty()) {
-	cout << rhs.disks.top() << " ";
-	tmp.push(rhs.disks.top());
-	rhs.disks.pop();
-      }
-      cout << "\n";
-      while (!tmp.empty()) {
-	rhs.disks.push(tp.top());
-	tmp.pop();
-      }
+  bool empty (void) {return disks.empty();}
+
+  void moveDisks (int disk, Tower& src, Tower& buf);
+
+  friend ostream& operator<<(ostream& out, Tower& rhs);
+};
+
+ostream& operator<<(ostream& out,  Tower& rhs) {
+  if (rhs.empty()) out << "Empty Tower!" << "\n";
+  else {
+    stack<int> tmp;
+    while (!rhs.empty()) {
+      int x = rhs.removeDisk() ;
+      out << x << " ";
+      tmp.push(x);
+    }
+    out << "\n";
+    while (!tmp.empty()) {
+      rhs.addDisk(tmp.top());
+      tmp.pop();
     }
   }
+  return out;
+}
 
-  void moveDisk (int disk, Tower& src, Tower& dst) {
-    if (disk == 0) return;
-    moveDisk()
-  }
+void Tower::moveDisks (int disk, Tower& dst, Tower& buf) {
+  if (disk == 0) return;
+  moveDisks(disk-1, buf, dst);
+  dst.addDisk(removeDisk());
+  buf.moveDisks(disk-1, dst, *this);
+}
+
+int main (void) {
+  Tower towers[3];
+  for (int i = 5; i > 0; --i) towers[0].addDisk(i);
+  for (int i = 0; i < 3; ++i) cout << towers[i];
+  towers[0].moveDisks(5, towers[2], towers[1]);
+  for (int i = 0; i < 3; ++i) cout << towers[i];
+}
+
