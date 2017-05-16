@@ -32,7 +32,7 @@ int BinaryTree::idx = 0;
 BinaryTree::BinaryTree (int cmd[]) {
   idx = 0;
   build(root, cmd);
-}wsjs<.
+}
 
 void BinaryTree::build (Link& v, int cmd[]) {
   int t = cmd[idx++];
