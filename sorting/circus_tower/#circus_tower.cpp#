@@ -1,0 +1,16 @@
+#include <algorithm>
+#include <utility>
+#include <vector>
+
+void buildTower (vector<pair<int,int>>& acrobats) {
+  //sort acrobats according to  height
+  sort(acrobats.begin(), acrobats.end());
+  //iterate through acrobats looking for the
+  //longest not decreasing weight sequence
+  //for (const auto& acrobat : acrobats) {
+  //  find_if(
+  //}
+  for (const auto it acrobats.begin(); acrobats.end(); ++it) {
+    find_if(acrobats.begin(), it, []()
+  }
+}
