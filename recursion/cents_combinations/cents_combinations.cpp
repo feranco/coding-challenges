@@ -3,9 +3,9 @@
 
 using namespace std;
 
-int centsCombinations (vector<int> combination, vector<int>& coins, int n) {
+int centsCombinations (vector<int> combination, int coins[], int idx, int n) {
   static int cnt = 0;
-  for (int cents : coins) {
+  for (int i = idx; i < 4; ++i) {
     if ((n-cents) < 0) continue;
     if ((n-cents) == 0) {
       combination.push_back(cents);
@@ -24,6 +24,6 @@ int centsCombinations (vector<int> combination, vector<int>& coins, int n) {
 
 int main(void) {
   vector<int> comb;
-  vector<int> coins = {25, 10, 5, 1};
+  int coins[] = {25, 10, 5, 1};
   cout << centsCombinations(comb, coins, 35);
 }
