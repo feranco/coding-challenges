@@ -1,98 +1,46 @@
+// algorithm to check if a binary tree is balanced
+
+// assumption: 
+// 1) tree is binary  tree
+// 2) each node has an integer value with ptr to the left and right children
+
+#include "../common/utility.h"
+
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 #include <algorithm>
 
-using std::cout;
 using std::vector;
 
-class BinaryTree {
-
-  struct Node {
-    int value;
-    Node *left, *right;
-    Node (int x): value(x), left(0), right(0){}
-  };
-  
-  typedef Node* Link;
-  static int idx;
-  Link root;
-  int isBalancedR (Link v) const;
-  void build (Link& v, int cmd[]);
-  void dump (std::ostream& out, Link t, int h) const;
-
-public:
-  BinaryTree (int cmd[]);
-  bool isBalanced (void) const;
-  friend std::ostream& operator<< (std::ostream& out, const BinaryTree& bt);
-};
-
-int BinaryTree::idx = 0;
-
-BinaryTree::BinaryTree (int cmd[]) {
-  idx = 0;
-  build(root, cmd);
-}
-
-void BinaryTree::build (Link& v, int cmd[]) {
-  int t = cmd[idx++];
-    if (t < 0) {
-      v = 0;
-    }
-    else {
-      v = new Node(t);
-      build(v->left, cmd);
-      build(v->right, cmd);
-    }
-}
-
-int BinaryTree::isBalancedR (Link v) const{
+int isBalancedR (Link v) {
   if (!v) return 0;
   int hl = isBalancedR(v->left);
+  //if (hl < 0) return -1; better do not check right if not necessary
   int hr = isBalancedR(v->right);
-  if (hr < 0 || hl < 0) return -1;
+  if (hr < 0 || hl < 0) return -1; 
   if (std::abs(hl-hr)>1) return -1;
   else return 1 + std::max(hl, hr);
 }
 
-bool BinaryTree::isBalanced (void) const{
+bool isBalanced (Link root) {
   if (isBalancedR(root) < 0) return false;
   else return true;
 }
 
-std::ostream& operator<< (std::ostream& out, const BinaryTree& bt) {
-  bt.dump (out, bt.root, 0);
-  return out;
-}
-
-void BinaryTree::dump (std::ostream& out, Link t, int h) const {
-
-  if (t == 0) {
-    for (int i = 0; i < h; ++i) {
-      out << " ";
-    }
-    out << "*" << std::endl;
-    return;
-  }
-
-  dump (out, t->right, h+1);
-  for (int i = 0; i < h; ++i) {
-      out << " ";
-  }
-  out << t->value << std::endl;
-  dump (out, t->left, h+1);
-}
-
 int main (void) {
   int  unbalanced[] = {4,2,-1,-1,1,3,5,7,-1,-1,-1,-1,6,-1,-1};
-  BinaryTree unbal(unbalanced);
-  cout << unbal;
-  cout << unbal.isBalanced();
+  Link unbal_tree = 0;
+  buildBtree(unbal_tree,  unbalanced);
+  dump(cout, unbal_tree, 0);
+  cout << isBalanced(unbal_tree) << "/n";
 
   int  balanced[] = {4,2,1,-1,-1,3,-1,-1,6,5,-1,-1,7,-1,-1};
-  BinaryTree bal(balanced);
-  cout << bal;
-  cout << bal.isBalanced();
+  Link bal_tree = 0;
+  buildBtree(bal_tree,  balanced);
+  dump(cout, bal_tree, 0);
+  cout << isBalanced(bal_tree) << "/n";
+
 }
 
 

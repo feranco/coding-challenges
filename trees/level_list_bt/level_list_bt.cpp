@@ -1,3 +1,12 @@
+// algorithm to build a h lists given binary tree t of height h
+// eachthe list k contains all nodes at level k 
+
+// assumption: 
+// 1) tree is binary  tree
+// 2) each node has an integer value with ptr to the left and right children
+
+#include "../common/utility.h"
+
 #include <algorithm>
 #include <iostream>
 #include <list>
@@ -8,15 +17,8 @@ using std::max;
 using std::list;
 using std::vector;
 
-struct BstNode {
-  int value;
-  BstNode *left, *right;
-  BstNode (int x): value(x), left(0), right(0){}
-};
-
-typedef BstNode* BstLink;
-
-void dumpBstLevelList (const vector<list<BstLink>>& levelsList) {
+// utility function to print all lists
+void dumpBtLevelList (const vector<list<Link>>& levelsList) {
   int i = 0;
   for (const auto level : levelsList) {
     cout << "Level " << i++ << ": ";
@@ -27,33 +29,22 @@ void dumpBstLevelList (const vector<list<BstLink>>& levelsList) {
   }
 }
 
-void buildBst (BstLink& v, int cmd[]) {
-  static int idx = 0;
-  int t = cmd[idx++];
-  if (t < 0) {
-    v = 0;
-  }
-  else {
-    v = new BstNode(t);
-    buildBst(v->left, cmd);
-    buildBst(v->right, cmd);
-  }
-}
-
-void bstLevelList (BstLink v, vector<list<BstLink>>& levelsList, int h) {
+// build a h lists given binary tree t of height h
+// modify preorder traversal to insert each node in the proper list
+void btLevelList (Link v, vector<list<Link>>& levelsList, int h) {
   if (!v) return;
-  if (levelsList.size() == h) levelsList.push_back(list<BstLink>());
+  if (levelsList.size() == h) levelsList.push_back(list<Link>());
   levelsList[h].push_back(v);
-  bstLevelList(v->left, levelsList, h+1);
-  bstLevelList(v->right, levelsList, h+1);
+  btLevelList(v->left, levelsList, h+1);
+  btLevelList(v->right, levelsList, h+1);
 };
 
 int main (void) {
-  int  unbalanced[] = {4,2,-1,-1,1,3,5,7,-1,-1,-1,-1,6,-1,-1};
-  BstLink bst = 0;
-  buildBst(bst, unbalanced);
-  vector<list<BstLink>> levelsList;
-  bstLevelList(bst, levelsList, 0);
-  dumpBstLevelList(levelsList);
+  int bt_val[] = {4,2,-1,-1,1,3,5,7,-1,-1,-1,-1,6,-1,-1};
+  Link bt = 0;
+  buildBtree(bt, bt_val);
+  vector<list<Link>> levelsList;
+  btLevelList(bt, levelsList, 0);
+  dumpBtLevelList(levelsList);
 }
 

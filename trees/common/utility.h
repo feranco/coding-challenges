@@ -4,15 +4,15 @@ using std::cout;
 
 struct BtNode {
   int value;
-  BtNode *left, *right;
-  BtNode (int x): value(x), left(0), right(0){}
+  BtNode *left, *right, *parent;
+  BtNode (int x): value(x), left(0), right(0), parent(0){}
 };
 
 typedef BtNode* Link;
 
 static int idx;
 
-void buildBt (Link& v, int cmd[]) {
+void buildBt (Link& v, Link p, int cmd[]) {
   
   int t = cmd[idx++];
   if (t < 0) {
@@ -20,14 +20,15 @@ void buildBt (Link& v, int cmd[]) {
   }
   else {
     v = new BtNode(t);
-    buildBt(v->left, cmd);
-    buildBt(v->right, cmd);
+    v->parent = p;
+    buildBt(v->left, v, cmd);
+    buildBt(v->right, v, cmd);
   }
 }
 
 void buildBtree (Link& v, int cmd[]) {
   idx = 0;
-  buildBt(v,cmd);
+  buildBt(v, 0, cmd);
 }
 
 void dump (std::ostream& out, Link t, int h) {
