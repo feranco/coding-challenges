@@ -1,5 +1,5 @@
 // algorithm to build a h lists given binary tree t of height h
-// eachthe list k contains all nodes at level k 
+// each list k contains all nodes at level k 
 
 // assumption: 
 // 1) tree is binary  tree
