@@ -15,41 +15,34 @@ using std::vector;
 vector<char> inorderTraversal (const unique_ptr<BtNode<char>>& root) {
   vector<char> traversal;
   auto iter = root.get();
-
-  while (true) {
-    while (iter->left) iter = iter->left;
+    
+  while (true) {// go down
+    while (iter->left) iter = iter->left.get();
     traversal.push_back(iter->data);
     if (iter->right) {
-      iter = iter->right;
+      iter = iter->right.get();
       continue;
     }
-    else {
+    else {//go up
       auto child = iter;
       iter = iter->parent;
-      if (iter->left == child) // traversal.push_back(iter->data) and go right
-      else //go to parent
+      while (true) {
+	
+	if (iter->left.get() == child) {
+	  traversal.push_back(iter->data);
+	  if (iter->right.get()) {iter = iter->right.get(); break;}
+	}
+                
+	if (iter->right.get() == child && iter == root.get()) return traversal;
+                
+	child = iter;
+	iter = iter->parent;           
+      }
     }
   }
 }
 
-/*
-vector<char> inorderTraversal (const unique_ptr<BtNode<char>>& root) {
-  vector<char> traversal;
-  auto iter = root.get();
-
-  while (true) {
-    while (iter->left) iter = iter->left;
-    traversal.push_back(iter->data);
-    if (iter->right) {
-      iter = iter->right;
-      continue;
-    }
-    else {
-      auto child = iter;
-      iter = iter->parent;
-      if (iter->left == child) //go right
-      else //go to parent
-    }
-  }
+int main (void) {
+  auto tree = buildCharBtree();
+  auto inorder = inorderTraversal(tree);
 }
-*/
