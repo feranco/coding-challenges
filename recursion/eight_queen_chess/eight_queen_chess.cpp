@@ -1,3 +1,9 @@
+//algorithm generating all the possible placements of 8 queens in a 8x8 chessboard
+//1) since two or more queens must be in different rows, a placement is coded
+//with a vector of size n: each element represent the position of the queen in the corresponding row
+//the approach is similar to the coding challenge queens_placements with the only difference that
+//the placement is executed in reverse order; moreover a fixed size array is used instead of a vector
+
 #include <array>
 #include <iostream>
 
