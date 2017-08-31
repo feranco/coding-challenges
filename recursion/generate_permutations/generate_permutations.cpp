@@ -23,15 +23,19 @@ template <typename T>
 void generatePermutations (const vector<T>& items, vector<vector<T>>* permutations,
 			   vector<T>* curr_permutation) {
   //if is a solution, process solution
-  if (curr_permutation->size() == items.size()) permutations->emplace_back(*curr_permutation);
-  //construct candidates and cycle over them
-  for (int i = 0; i < items.size(); ++i) {
-    curr_permutation->emplace_back(items[i]);//make move
-    if (isValidPermutation(*curr_permutation)) {//prune not valid candidates
-      generatePermutations(items, permutations, curr_permutation);
-    }
-    curr_permutation->pop_back();//unmake move
-  }
+  if (curr_permutation->size() == items.size()) {
+		permutations->emplace_back(*curr_permutation);
+	}
+	else {//this else is important to not exceed the search space (permutations with >n element)
+		//construct candidates and cycle over them
+		for (int i = 0; i < items.size(); ++i) {
+			curr_permutation->emplace_back(items[i]);//make move
+			if (isValidPermutation(*curr_permutation)) {//prune not valid candidates
+				generatePermutations(items, permutations, curr_permutation);
+			}
+			curr_permutation->pop_back();//unmake move
+		}
+	}
 }
 
 template <typename T>
