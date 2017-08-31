@@ -21,14 +21,17 @@ bool isValidPlacement (const vector<int>& curr_placement) {
 void queenPlacementsHelper (int n, vector<int>* curr_placement, vector<vector<int>>* placements) {
 
   //if is a solution, process solution
-  if (curr_placement->size() == n) placements->emplace_back(*curr_placement);
-	
-  for (int i = 0; i < n; ++i) {//construct candidate and cycle over them
-    curr_placement->push_back(i);//make move
-    if (isValidPlacement(*curr_placement)) {//prune not valid candidates
-      queenPlacementsHelper(n, curr_placement, placements);
-    }
-    curr_placement->pop_back();//unmake move
+  if (curr_placement->size() == n) {
+		placements->emplace_back(*curr_placement);
+	} 
+	else {	//this else is important in order to not exceed the search space (placement with >n queens)
+		for (int i = 0; i < n; ++i) {//construct candidate and cycle over them
+			curr_placement->push_back(i);//make move
+			if (isValidPlacement(*curr_placement)) {//prune not valid candidates
+				queenPlacementsHelper(n, curr_placement, placements);
+			}
+			curr_placement->pop_back();//unmake move
+		}
   }
 }
 
