@@ -24,7 +24,7 @@ void generatePermutations (const vector<T>& items, vector<vector<T>>* permutatio
 			   vector<T>* curr_permutation) {
   //if is a solution, process solution
   if (curr_permutation->size() == items.size()) permutations->emplace_back(*curr_permutation);
-
+  //construct candidates and cycle over them
   for (int i = 0; i < items.size(); ++i) {
     curr_permutation->emplace_back(items[i]);//make move
     if (isValidPermutation(*curr_permutation)) {//prune not valid candidates
