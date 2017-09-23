@@ -1,7 +1,44 @@
 #include <memory>
+#include <iostream>
 
 using std::unique_ptr;
 
+template <typename T>
+struct BstNode {
+  T data;
+  BstNode<T>* parent;
+  unique_ptr<BstNode<T>> left, right;
+  BstNode (T data, BstNode<T>* p = nullptr,  BstNode<T>* l = nullptr,  BstNode<T>* r = nullptr) {
+    this->data = data;
+    parent = p;
+    left.reset(l); 
+    right.reset(r);
+    } 
+};
+
+//print (sub)tree
+const int spaces = 2;
+template <typename T>
+void dump(const unique_ptr<BstNode<T>>& root, int h)  {
+  //dump external node
+  if (root == 0) {
+    for (int i = 0; i < h; ++i) std::cout << "  ";
+    std::cout << '*' << std::endl;
+    return;
+  }
+
+  dump(root->right, h + spaces);
+  
+  //dump internal node
+  for (int i = 0; i < h; ++i) {
+    std::cout << "  ";
+  }
+  std::cout << root->data << std::endl;
+  
+  dump(root->left, h + spaces);
+}
+
+/*
 template <typename T>
 struct BstNode {
   T data;
@@ -14,6 +51,7 @@ struct BstNode {
     r = std::move(r);
   } 
 };
+*/
 
 unique_ptr<BstNode<int>> buildTestBst (void) {
   unique_ptr<BstNode<int>> root(new BstNode<int>(19));
