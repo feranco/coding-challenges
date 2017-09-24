@@ -9,7 +9,7 @@
 
 using namespace std;
 #if 0
-//backtracking
+//backtracking: O(2^n)
 //row = current array, col = element in the current array
 int findMinPath (const vector<vector<int>>& triangle, int row, int col) {
   //base case
@@ -24,7 +24,7 @@ int findMinPath (const vector<vector<int>>& triangle) {
 }
 #endif
 
-//cache
+//cache O(n^2) time O(n^2) space 
 //row = current array, col = element in the current array
 int findMinPath (const vector<vector<int>>& triangle, int row, int col, vector<vector<int>>* cache_ptr) {
   //base case
