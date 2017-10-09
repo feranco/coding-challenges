@@ -2,6 +2,10 @@
 // for all pairs in a vector of integers. Return the answer modulo 109+7.
 //O(n) time, O(1) space
 
+#include <vector>
+
+using namespace std;
+
 int cntBits(vector<int> &a) {
     int n_bits = sizeof(int)*8;
     long int result = 0;//important set to long
