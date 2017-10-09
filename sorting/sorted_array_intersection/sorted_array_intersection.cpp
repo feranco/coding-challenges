@@ -9,19 +9,19 @@
 
 using namespace std;
 
-vector<int> findIntersection(const vector<int>& a, const vector<int>& b) {
-  vector<int> result;
-  int idx_a = 0, idx_b = 0;
-
-  while (idx_a < a.size() && idx_b < b.size()) {
-    if (a[idx_a] == b[idx_b] && (idx_a == 0 || a[idx_a] != a[idx_a - 1])) {
-      result.emplace_back(a[idx_a]);
-      ++idx_a, ++idx_b;
+vector<int> findIntersection(const vector<int> &a, const vector<int> &b) {
+    int i = 0, j = 0;
+    vector<int> result;
+    while (i < a.size() && j < b.size()) {
+        if(a[i] == b[j]) {
+            result.emplace_back(a[i]);
+            i++;
+            j++;
+        }
+        else if (a[i] < b[j]) ++i;
+        else ++j;
     }
-    else if (a[idx_a] < b[idx_b]) ++idx_a;
-    else ++idx_b;
-  }
-  return result;
+    return result;
 }
 
 vector<int> findIntersectionBS(const vector<int>& a, const vector<int>& b) {
