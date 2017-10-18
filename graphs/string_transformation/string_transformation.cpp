@@ -2,7 +2,8 @@
 //to change a string start into a string end:
 //each transformation shall produce a string in a dictionary
 //each transformation shall change one character at maximum
-//O(w + w^2) = O(w^2) w = #dictionary words: w vertex, max w^2 edges (all words differs by one) 
+//O(w + w^2) = O(w^2) w = #dictionary words: w vertex, 
+//max w^2 edges (all words differs by one) 
 
 #include <iostream>
 #include <queue>
