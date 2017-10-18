@@ -6,62 +6,68 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include <algorithm>
-
 using namespace std;
 
-bool diffByOne (const string& s, const string& t) {
-  int diff = 0;
-  for (int i = 0; i < s.size() && diff <=1; ++i) {
-    if (s[i] != t[i]) ++diff;
-  }
-  return (diff == 1) ? true : false;
+bool diffByOne (const string& a, const string& b) {
+    int cnt = 0;
+    for (int i = 0; i < a.size(); ++i) {
+        if (a[i] != b[i]) cnt++;
+    }
+    return (cnt == 1) ? true : false; 
 }
 
-int hasProductionSequence(const vector<string>& dictionary, const string& s, const string& t) {
-	
-  unordered_set<string> visited;
-  unordered_map<string,string> parent;
-  queue<string> bfs_queue;
-  bfs_queue.emplace(s);
+unordered_map<string,vector<string>> buildGraph (vector<string>& dict) {
+    unordered_map<string,vector<string>> graph;
+    
+    for (const string& s : dict) graph.emplace(s, vector<string>()); 
+    for (int i = 0; i < dict.size(); ++i) {
+        for (int j = i+1; j < dict.size(); ++j) {
+            if (diffByOne(dict[i],dict[j])) {
+                graph[dict[i]].push_back(dict[j]);
+                graph[dict[j]].push_back(dict[i]);
+            }
+        }
+    }
+    return graph;
+}
+
+int hasProductionSequence(vector<string> &dict, string start, string end) {
+    
+    if (start == end) return 1;
+    
+    unordered_map<string,vector<string>> graph = buildGraph(dict);
+    unordered_map<string,string> parent;
+    unordered_set<string> discovered;
+    queue<string> q;
+    
+    //init
+    for (const string& s : dict) parent.emplace(s, "");
+    q.emplace(start);
+    discovered.emplace(start);
+    
+    //bfs
+    while (!q.empty()) {
+        const string& u = q.front();
+        q.pop();
         
-  while(!bfs_queue.empty()) {
-    const string& current_word = bfs_queue.front();
-    bfs_queue.pop();
-    if (current_word == t) break;
-/*
-    any_of(begin(dictionary), end(dictionary), [&current_word](const string& word) {
-	if (diffByOne(current_word, word) && visited.find(word) == visited.end()) {
-	  parent[word] = current_word;
-	  visited.emplace(word);
-	  bfs_queue.emplace(word);
-	}
-      });
-  */   
-    for (const string& word : dictionary) {
-      if (diffByOne(current_word, word) && visited.find(word) == visited.end()) {
-	parent[word] = current_word;
-	visited.emplace(word);
-	bfs_queue.emplace(word);
-      }
+        if (u == end) break;
+        
+        for (const auto& v : graph[u]) {
+            if (discovered.find(v) == discovered.end()) {
+                discovered.emplace(v);
+                parent[v] = u;
+                q.emplace(v);
+            }
+        }
     }
-   
-  }
-
- 
-  if (parent.find(t) != parent.end()) {
-    string& it = parent.find(t)->second;
+    
     int length = 1;
-    while (it != s) {
-      cout << it;
-      it = parent.at(it);
-      ++length;
+    while (parent.at(end) != "") {
+        length++;
+        end = parent.at(end);
     }
-    return length;
-  }
-  return -1;	
+    return (end == start) ? length : 0;
 }
-
     
 int main(void) {
   vector<string> dictionary{"bat","cot","dog","dag","dot","cat"};
