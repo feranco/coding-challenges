@@ -21,7 +21,7 @@ void generatePowerSet(const vector<T>& items, vector<bool>* items_in_curr_power_
   }
   else 
     { 
-      const array<bool, 2> in_out{ false,true };
+      const array<bool, 2> in_out{ {false,true} };
       for (int j = 0; j < in_out.size(); ++j) {
 	items_in_curr_power_set.emplace_back(in_out[j]);
 	generatePowerSet(items, items_in_curr_power_set_ptr, power_set);
