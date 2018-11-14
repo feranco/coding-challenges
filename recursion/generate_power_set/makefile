@@ -1,5 +1,5 @@
 # compiler
-CXX=clang++
+CXX=g++
 CXXFLAGS=-g -std=c++14  -Wall -Werror
 BIN=powerSet
 
