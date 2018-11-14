@@ -37,12 +37,3 @@ vector<vector<T>> generatePowerSet(const vector<T>& items) {
   generatePowerSet(items, &items_in_curr_power_set_ptr, &power_set);
   return power_set;
 }
-
-int main(void) {
-  vector<char> items{ 'a','b','c','d' };
-  auto permutations = generatePowerSet(items);
-  for (auto permutation : permutations) {
-    for (auto item : permutation) cout << item << " ";
-    cout << "\n";
-  }
-}
