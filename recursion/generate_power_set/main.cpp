@@ -12,7 +12,9 @@ int main(int argc, char**argv) {
   
   for (auto set : powerSet) {
     if (!std::equal(set.begin(), set.end())) throw std::runtime_error("powerSetParams different from powerSetReturn");     
-    for (auto item : set) std::cout << item << " ";
-    std::cout << "\n";
+    for (auto item : set) {
+      std::cout << item << " ";
     }
+    std::cout << "\n";
+  }
 }
