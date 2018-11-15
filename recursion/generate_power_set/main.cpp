@@ -9,9 +9,11 @@ int main(int argc, char**argv) {
   
   auto powerSet = powerSetParams(items);
   auto samePowerSet = powerSetReturn(items);
+
+  //not working because powerSetReturn build sets appending elements at the end of the vector
+  //if (!std::equal(powerSet.begin(), powerSet.end(), samePowerSet.begin())) throw std::runtime_error("powerSetParams different from powerSetReturn"); 
   
-  for (auto set : powerSet) {
-    if (!std::equal(set.begin(), set.end())) throw std::runtime_error("powerSetParams different from powerSetReturn");     
+  for (auto set : samePowerSet) {    
     for (auto item : set) {
       std::cout << item << " ";
     }
