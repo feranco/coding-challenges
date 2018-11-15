@@ -1,7 +1,10 @@
 #include <list>
 #include <vector>
 
-void staircaseSteps (int n, int currentStep, std::list<int> currentPath, std::vector<std::list<int>>& result) {
+using Path  = std::list<int>;
+using Paths = std::vector<Path>;
+
+void staircaseSteps (int n, int currentStep, Path currentPath, Paths& result) {
   
   if (currentStep == n) {
     currentPath.push_back(currentStep);
@@ -18,8 +21,8 @@ void staircaseSteps (int n, int currentStep, std::list<int> currentPath, std::ve
 }
 
 std::vector<std::list<int>> staircaseStepsParams (int n) {
-  std::vector<std::list<int>> result;
-  std::list<int> currentPath;
+  Paths result;
+  Path currentPath;
   staircaseSteps(n, 0, currentPath, result);
   return result;
 }

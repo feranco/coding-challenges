@@ -1,7 +1,7 @@
 # compiler
 CXX=g++
 CXXFLAGS=-g -std=c++14  -Wall -Werror
-BIN=powerSet
+BIN=staircaseStep
 
 SRC=$(wildcard *.cpp)
 OBJ=$(SRC:%.cpp=%.o)
